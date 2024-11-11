@@ -1,5 +1,6 @@
 param(
     [Parameter(Mandatory = $true)][string]$ResourceGroup,
+    [Parameter(Mandatory = $true)][string]$SubscriptionId,
     [Parameter(Mandatory = $true)][string]$Workspace,
     [Parameter(Mandatory = $true)][string]$Region,
     [Parameter(Mandatory = $true)][string[]]$Solutions,
@@ -7,6 +8,9 @@ param(
     [Parameter(Mandatory = $false)][string]$IsGov = $false
 )
 
+# Added to test script with correct Subscription
+
+Set-AzContext -SubscriptionId $SubscriptionId
 $context = Get-AzContext
 
 
@@ -25,6 +29,7 @@ $authHeader = @{
     'Content-Type'  = 'application/json' 
     'Authorization' = 'Bearer ' + $token.AccessToken 
 }
+# Removed as subscription ID set by parameter
 $SubscriptionId = $context.Subscription.Id
 
 $serverUrl = "https://management.azure.com"
