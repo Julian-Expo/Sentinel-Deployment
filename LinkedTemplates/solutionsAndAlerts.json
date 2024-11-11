@@ -119,7 +119,7 @@
             "properties": {
                 "forceUpdateTag": "1",
                 "azPowerShellVersion": "3.0",
-                "arguments": "[concat('-Workspace ', parameters('workspaceName'), ' -ResourceGroup ', resourceGroup().name, '-SubscriptionID', parameters('subscriptionId'), ' -Solutions ', variables('solutions'), ' -SeveritiesToInclude ', string(variables('severities')), ' -Region ', parameters('location'), ' -IsGov $false')]",
+                "arguments": "[concat('-Workspace ', parameters('workspaceName'), ' -ResourceGroup ', resourceGroup().name, ' -SubscriptionID ', subscription().subscriptionId, ' -Solutions ', variables('solutions'), ' -SeveritiesToInclude ', string(variables('severities')), ' -Region ', parameters('location'), ' -IsGov $false')]",
                 "primaryScriptUri": "https://raw.githubusercontent.com/Julian-Expo/Sentinel-Deployment/refs/heads/main/Scripts/Create-NewSolutionAndRulesFromList.ps1",
                 "supportingScriptUris": [],
                 "timeout": "PT30M",

@@ -30,7 +30,7 @@ $authHeader = @{
     'Authorization' = 'Bearer ' + $token.AccessToken 
 }
 # Removed as subscription ID set by parameter
-$SubscriptionId = $context.Subscription.Id
+# $SubscriptionId = $context.Subscription.Id
 
 $serverUrl = "https://management.azure.com"
 if ($isGov -eq $true) {
