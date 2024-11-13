@@ -69,9 +69,6 @@
             "location": "[resourceGroup().location]"
         },
         {
-            "dependsOn": [
-                "[concat('Microsoft.ManagedIdentity/userAssignedIdentities/', variables('identityName'))]"
-            ],
             "type": "Microsoft.Resources/deploymentScripts",
             "apiVersion": "2020-10-01",
             "name": "sleep",
@@ -81,16 +78,19 @@
                 "forceUpdateTag": "1",
                 "azPowerShellVersion": "3.0",
                 "arguments": "",
-                "scriptContent": "Start-Sleep -Seconds 180",
+                "scriptContent": "Start-Sleep -Seconds 120",
                 "supportingScriptUris": [],
                 "timeout": "PT30M",
                 "cleanupPreference": "Always",
                 "retentionInterval": "P1D"
-            }
+            },
+            "dependsOn": [
+                "[concat('Microsoft.ManagedIdentity/userAssignedIdentities/', variables('identityName'))]"
+            ]            
         },
         {
-            "apiVersion": "2017-09-01",
             "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2017-09-01",
             "name": "[variables('roleGuidId')]",
             "properties": {
                 "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
@@ -102,9 +102,26 @@
             ]
         },
         {
+            "type": "Microsoft.Resources/deploymentScripts",
+            "apiVersion": "2020-10-01",
+            "name": "sleep2",
+            "location": "[resourceGroup().location]",
+            "kind": "AzurePowerShell",
+            "properties": {
+                "forceUpdateTag": "1",
+                "azPowerShellVersion": "3.0",
+                "arguments": "",
+                "scriptContent": "Start-Sleep -Seconds 120",
+                "supportingScriptUris": [],
+                "timeout": "PT30M",
+                "cleanupPreference": "Always",
+                "retentionInterval": "P1D"
+            },
             "dependsOn": [
-                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('identityName'))]"
-            ],
+                "[concat('Microsoft.Authorization/roleAssignments/', variables('roleGuidId'))]"
+            ]            
+        },
+        {
             "type": "Microsoft.Resources/deploymentScripts",
             "apiVersion": "2020-10-01",
             "name": "deployRules",
@@ -125,7 +142,10 @@
                 "timeout": "PT30M",
                 "cleanupPreference": "OnExpiration",
                 "retentionInterval": "P1D"
-            }
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deploymentScripts/', 'sleep2')]"
+            ]
         }
     ],
     "outputs": {}
