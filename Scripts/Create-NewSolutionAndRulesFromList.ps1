@@ -106,7 +106,7 @@ if (($SeveritiesToInclude -eq "None") -or ($null -eq $SeveritiesToInclude)) {
 }
 
 #Give the system time to update all the needed databases before trying to install the rules.
-Start-Sleep -Seconds 60
+Start-Sleep -Seconds 120
 
 #URL to get all the needed Analytic Rule templates
 $solutionURL = $baseUri + "/providers/Microsoft.SecurityInsights/contentTemplates?api-version=2023-05-01-preview"
