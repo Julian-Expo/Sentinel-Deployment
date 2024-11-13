@@ -14,10 +14,10 @@ Set-AzContext -SubscriptionId $SubscriptionId
 $context = Get-AzContext
 
 
-if (!$context) {
-    Connect-AzAccount -Environment AzureUSGovernment
-    $context = Get-AzContext
-}
+#if (!$context) {
+#    Connect-AzAccount -Environment AzureUSGovernment
+#    $context = Get-AzContext
+#}
 
 
 Write-Host "Connected to Azure with subscription: " $context.Subscription
@@ -33,9 +33,9 @@ $authHeader = @{
 # $SubscriptionId = $context.Subscription.Id
 
 $serverUrl = "https://management.azure.com"
-if ($isGov -eq $true) {
-    $serverUrl = "https://management.usgovcloudapi.net"
-}
+#if ($isGov -eq $true) {
+#    $serverUrl = "https://management.usgovcloudapi.net"
+#}
 
 $baseUri = $serverUrl + "/subscriptions/${SubscriptionId}/resourceGroups/${ResourceGroup}/providers/Microsoft.OperationalInsights/workspaces/${Workspace}"
 $alertUri = "$baseUri/providers/Microsoft.SecurityInsights/alertRules/"
