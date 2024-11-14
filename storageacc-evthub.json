@@ -1,0 +1,71 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string"
+        },
+        "StorageAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the storage account"
+            }
+        },
+         "EventHubNamespaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the storage account"
+            }
+        },
+         "EventHubName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the storage account"
+            }
+        }
+    },
+    "resources": [
+        {
+           "type": "Microsoft.Storage/storageAccounts",
+           "apiVersion": "2023-05-01",
+           "name": "[parameters('storageAccountName')]",
+           "location": "[parameters('location')]",
+           "sku": {
+                "name": "Standard_LRS"
+            },
+           "kind": "StorageV2"
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces",
+            "apiVersion": "2024-01-01",
+            "name": "[parameters('eventHubNamespaceName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard",
+                "capacity": 1
+            },
+            "properties": {
+                "minimumTlsVersion": "1.2",
+                "isAutoInflateEnabled": false,
+                "maximumThroughputUnits": 0
+            }
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs",
+            "apiVersion": "2024-01-01",
+            "name": "[format('{0}/{1}', parameters('eventHubNamespaceName'), parameters('eventHubName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('eventHubNamespaceName'))]"
+            ],
+            "properties": {
+                "retentionDescription": {
+                    "cleanupPolicy": "Delete",
+                    "retentionTimeInHours": 4
+                },
+                "partitionCount": 2,
+                "messageRetentionInDays": 1
+            }
+        }
+    ]
+}      
