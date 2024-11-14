@@ -14,6 +14,31 @@
                 "description": "Name for the Log Analytics workspace"
             }
         },
+        "enableExpoeSOC": {
+            "type": "bool",
+            "metadata": {
+                "description": "Whether or not ExpoE SOC integration should be enabled"
+            },
+            "defaultValue": false
+        },
+        "StorageAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the storage account"
+            }
+        },
+        "EventHubNamespaceName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the Eventhub namespace"
+            }
+        },
+        "EventHubName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the Eventhub"
+            }
+        },
         "pricingTier": {
             "type": "string",
             "metadata": {
@@ -307,7 +332,44 @@
                     }
                 }
             }
-        }
+        },
+        {
+            "condition": "[parameters('enableExpoeSOC')]",
+            "name": "enableExpoeSocIntegration",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "workspaceCreation"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/Julian-Expo/Sentinel-Deployment/refs/heads/main/LinkedTemplates/expoesocint.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "StorageAccountName": {
+                        "value": "[parameters('StorageAccountName')]"
+                    },
+                    "EventHubNamespaceName": {
+                        "value": "[parameters('EventHubNamespaceName')]"
+                    },
+                    "EventHubName": {
+                        "value": "[parameters('EventHubName')]"
+                    },
+                    "tenantId": {
+                        "value": "[subscription().tenantId]"
+                    },
+                    "subscriptionId": {
+                        "value": "[subscription().subscriptionId]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                }
+            }
+        }        
     ],
     "outputs": {
         "workspaceName": {

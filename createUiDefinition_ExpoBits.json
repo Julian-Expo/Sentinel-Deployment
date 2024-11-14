@@ -618,75 +618,8 @@
                       "visible": "[if(steps('analyticsRules').enableScheduledAlerts, true, false)]"
                   }
               ]
-          },
-          {
-            "name": "ExpoeIntegration",
-            "label": "Expoe Integration",
-            "elements": [
-                {
-                    "name": "infoBoxSettings",
-                    "type": "Microsoft.Common.InfoBox",
-                    "visible": true,
-                    "options": {
-                        "icon": "Info",
-                        "text": "Select if the Expoe SOC integration components are required"
-                    }
-                },
-                {
-                    "name": "enableExpoeSOC",
-                    "type": "Microsoft.Common.CheckBox",
-                    "label": "Enable Expoe SOC integration via Event Hub.",
-                    "toolTip": "This will create the Event Hub and storage account resources to support forward alerts to Expoenetial-e SOC",
-                    "constraints": {
-                        "required": false,
-                        "validationMessage": "Please choose"
-                    }
-                },
-                {
-            "name": "StorageAccountName",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Storage Account Name",
-            "placeholder": "",
-            "defaultValue": "",
-            "toolTip": "The Workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol.",
-            "constraints": {
-                "required": false,
-                "regex": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$",
-                "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
-            },
-            "visible": "[if(steps('ExpoeIntegration').enableExpoeSOC, true, false)]"
-        },
-        {
-            "name": "EventHubNamespaceName",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Event Hub Namespace Name",
-            "placeholder": "",
-            "defaultValue": "",
-            "toolTip": "The Workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol.",
-            "constraints": {
-                "required": false,
-                "regex": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$",
-                "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
-            },
-            "visible": "[if(steps('ExpoeIntegration').enableExpoeSOC, true, false)]"
-        },
-        {
-            "name": "EventHubName",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Event Hub Name",
-            "placeholder": "",
-            "defaultValue": "",
-            "toolTip": "The Workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol.",
-            "constraints": {
-                "required": false,
-                "regex": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$",
-                "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
-            },
-            "visible": "[if(steps('ExpoeIntegration').enableExpoeSOC, true, false)]"
-        }
-       ]
-      }
-     ],
+          }
+        ],
         "outputs": {
             "workspaceName": "[basics('workspaceName')]",
             "dailyQuota": "[basics('dailyQuota')]",
@@ -705,11 +638,7 @@
             "enableMLAlerts": "[steps('analyticsRules').enableMLAlerts]",
             "enableScheduledAlerts": "[steps('analyticsRules').enableScheduledAlerts]",
             "severityLevels": "[steps('analyticsRules').severityLevels]",
-            "rgName": "[basics('rgName')]",
-            "enableExpoeSOC": "[steps('ExpoeIntegration').enableExpoeSOC]",
-			"StorageAccountName": "[steps('ExpoeIntegration').StorageAccountName]",
-			"EventHubNamespaceName": "[steps('ExpoeIntegration').EventHubNamespaceName]",
-			"EventHubName": "[steps('ExpoeIntegration').EventHubName]"
+            "rgName": "[basics('rgName')]"
         }
     }
 }
