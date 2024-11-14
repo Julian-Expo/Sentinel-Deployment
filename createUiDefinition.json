@@ -237,7 +237,7 @@
                               },
                               {
                                 "label": "Microsoft Entra ID",
-                                "description": "The Azure Active Directory solution for Microsoft Sentinel enables you to ingest Azure Active Directory Audit,Sign-in,Provisioning,Risk Events and Risky User/Service Principal logs using Diagnostic Settings into Microsoft Sentinel.",
+                                "description": "The Entra ID solution for Microsoft Sentinel enables you to ingest Entra ID Audit,Sign-in,Provisioning,Risk Events and Risky User/Service Principal logs using Diagnostic Settings into Microsoft Sentinel.",
                                 "value": "Microsoft Entra ID"
                               },                             
                               {
@@ -261,9 +261,14 @@
                                   "value": "Microsoft Defender for Cloud"
                               },
                               {
-                                  "label": "Microsoft Defender for Endpoint",
-                                  "description": "Microsoft Defender for Endpoint is an enterprise endpoint security platform designed to help enterprise networks prevent, detect, investigate, and respond to advanced threats.",
-                                  "value": "Microsoft Defender for Endpoint"
+                                "label": "Microsoft Defender for Endpoint",
+                                "description": "Microsoft Defender for Endpoint is an enterprise endpoint security platform designed to help enterprise networks prevent, detect, investigate, and respond to advanced threats.",
+                                "value": "Microsoft Defender for Endpoint"
+                              },
+                              {
+                                  "label": "Microsoft Defender XDR",
+                                  "description": "Microsoft Defender XDR is a unified, natively integrated, pre- and post-breach enterprise defense suite that protects endpoint, identity, email, and applications and helps you detect, prevent, investigate, and automatically respond to sophisticated threats.",
+                                  "value": "Microsoft Defender XDR"
                               },
                               {
                                   "label": "Microsoft Defender for IoT",
