@@ -358,12 +358,6 @@
                     "EventHubName": {
                         "value": "[parameters('EventHubName')]"
                     },
-                    "tenantId": {
-                        "value": "[subscription().tenantId]"
-                    },
-                    "subscriptionId": {
-                        "value": "[subscription().subscriptionId]"
-                    },
                     "location": {
                         "value": "[parameters('location')]"
                     }
