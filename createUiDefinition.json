@@ -231,7 +231,7 @@
                       "constraints": {
                           "allowedValues": [
                               {
-                                  "label": "Azure Active Directory",
+                                  "label": "Azure Active Directory (legacy name)",
                                   "description": "The Azure Active Directory solution for Microsoft Sentinel enables you to ingest Azure Active Directory Audit,Sign-in,Provisioning,Risk Events and Risky User/Service Principal logs using Diagnostic Settings into Microsoft Sentinel.",
                                   "value": "Azure Active Directory"
                               },
@@ -267,7 +267,7 @@
                               },
                               {
                                   "label": "Microsoft Defender XDR",
-                                  "description": "Microsoft Defender XDR is a unified, natively integrated, pre- and post-breach enterprise defense suite that protects endpoint, identity, email, and applications and helps you detect, prevent, investigate, and automatically respond to sophisticated threats.",
+                                  "description": "The Microsoft Defender XDR solution for Microsoft Sentinel enables you to ingest Security Alerts/Incidents and raw logs from the products within Microsoft Defender XDR suite into Microsoft Sentinel.",
                                   "value": "Microsoft Defender XDR"
                               },
                               {
@@ -648,7 +648,7 @@
             "label": "Storage Account Name",
             "placeholder": "",
             "defaultValue": "",
-            "toolTip": "The Workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol.",
+            "toolTip": "Storage account names must be between 3 and 24 characters in length and may contain numbers and lowercase letters only.It must be unique within Azure",
             "constraints": {
                 "required": false,
                 "regex": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$",
