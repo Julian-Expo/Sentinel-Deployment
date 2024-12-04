@@ -680,7 +680,7 @@
             "constraints": {
                 "required": false,
                 "regex": "^[A-Za-z0-9][A-Za-z0-9-_]+[A-Za-z0-9]{1,256}$",
-                "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                "validationMessage": "Alphanumeric characters plus '_' and '-' are allowed, and the value must be 1-256 characters long."
             },
             "visible": "[if(steps('ExpoeIntegration').enableExpoeSOC, true, false)]"
         }
