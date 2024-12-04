@@ -648,11 +648,11 @@
             "label": "Storage Account Name",
             "placeholder": "",
             "defaultValue": "",
-            "toolTip": "Storage account names must be between 3 and 24 characters in length and may contain numbers and lowercase letters only.It must be unique within Azure",
+            "toolTip": "Storage account names must be be between 3 and 24 characters in length and may contain numbers and lowercase letters only.It must be unique within Azure",
             "constraints": {
                 "required": false,
-                "regex": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$",
-                "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                "regex": "^[a-z0-9]{3,24}$",
+                "validationMessage": "Only lowercase alphanumeric characters are allowed, and the value must be 3-24 characters long."
             },
             "visible": "[if(steps('ExpoeIntegration').enableExpoeSOC, true, false)]"
         },
@@ -662,11 +662,11 @@
             "label": "Event Hub Namespace Name",
             "placeholder": "",
             "defaultValue": "",
-            "toolTip": "The Workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol.",
+            "toolTip": "The Event Hub Namespace name should be lower case and include 6-50 characters including 0-9 and '-'. The '-' shouldn't be the first or the last character.",
             "constraints": {
                 "required": false,
-                "regex": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$",
-                "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                "regex": "^[a-z0-9][a-z0-9-]+[a-z0-9]{6,50}$",
+                "validationMessage": "Only lower case alphanumeric characters are allowed and '-', and the value must be 6-50 characters long."
             },
             "visible": "[if(steps('ExpoeIntegration').enableExpoeSOC, true, false)]"
         },
@@ -676,10 +676,10 @@
             "label": "Event Hub Name",
             "placeholder": "",
             "defaultValue": "",
-            "toolTip": "The Workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol.",
+            "toolTip": "The Event hub name should include 1-256 characters, including '_' and '-'. The '-' or '_' shouldn't be the first or the last character.",
             "constraints": {
                 "required": false,
-                "regex": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$",
+                "regex": "^[A-Za-z0-9][A-Za-z0-9-_]+[A-Za-z0-9]{1,256}$",
                 "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
             },
             "visible": "[if(steps('ExpoeIntegration').enableExpoeSOC, true, false)]"
