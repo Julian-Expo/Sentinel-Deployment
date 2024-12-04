@@ -1,0 +1,414 @@
+{
+    "$schema":  "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion":  "1.0.0.0",
+    "parameters":  {
+        "PlaybookName":  {
+            "defaultValue":  "Playbook-New-Incidents",
+            "type":  "string"
+        }
+    },
+    "variables":  {
+        "MicrosoftSentinelConnectionName":  "[concat('MicrosoftSentinel-', parameters('PlaybookName'))]",
+        "Eventhubs-1ConnectionName":  "[concat('Eventhubs-1-', parameters('PlaybookName'))]",
+        "Acsemail-1ConnectionName":  "[concat('Acsemail-1-', parameters('PlaybookName'))]"
+    },
+    "resources":  [
+        {
+            "properties":  {
+                "provisioningState":  "Succeeded",
+                "state":  "Enabled",
+                "definition":  {
+                    "$schema":  "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion":  "1.0.0.0",
+                    "parameters":  {
+                        "$connections":  {
+                            "defaultValue":  {
+                            },
+                            "type":  "Object"
+                        }
+                    },
+                    "triggers":  {
+                        "Microsoft_Sentinel_incident":  {
+                            "type":  "ApiConnectionWebhook",
+                            "inputs":  {
+                                "host":  {
+                                    "connection":  {
+                                        "name":  "@parameters('$connections')['azuresentinel']['connectionId']"
+                                    }
+                                },
+                                "body":  {
+                                    "callback_url":  "@{listCallbackUrl()}"
+                                },
+                                "path":  "/incident-creation"
+                            }
+                        }
+                    },
+                    "actions":  {
+                        "Parse_JSON":  {
+                            "runAfter":  {
+                            },
+                            "type":  "ParseJson",
+                            "inputs":  {
+                                "content":  "@triggerBody()",
+                                "schema":  {
+                                    "properties":  {
+                                        "alerts":  {
+                                            "items":  {
+                                                "properties":  {
+                                                    "alertDisplayName":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "alertId":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "description":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "endTimeUtc":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "productName":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "severity":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "startTimeUtc":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "vendorName":  {
+                                                        "type":  "string"
+                                                    }
+                                                },
+                                                "required":  [
+                                                    "alertId",
+                                                    "alertDisplayName",
+                                                    "severity",
+                                                    "description",
+                                                    "startTimeUtc",
+                                                    "endTimeUtc",
+                                                    "vendorName",
+                                                    "productName"
+                                                ],
+                                                "type":  "object"
+                                            },
+                                            "type":  "array"
+                                        },
+                                        "bookmarks":  {
+                                            "items":  {
+                                                "properties":  {
+                                                    "bookmarkId":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "bookmarkName":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "createdTimeUtc":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "notes":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "query":  {
+                                                        "type":  "string"
+                                                    }
+                                                },
+                                                "required":  [
+                                                    "bookmarkId",
+                                                    "bookmarkName",
+                                                    "createdTimeUtc",
+                                                    "query",
+                                                    "notes"
+                                                ],
+                                                "type":  "object"
+                                            },
+                                            "type":  "array"
+                                        },
+                                        "comments":  {
+                                            "items":  {
+                                                "properties":  {
+                                                    "author":  {
+                                                        "properties":  {
+                                                            "displayName":  {
+                                                                "type":  "string"
+                                                            },
+                                                            "email":  {
+                                                                "type":  "string"
+                                                            },
+                                                            "userPrincipalName":  {
+                                                                "type":  "string"
+                                                            }
+                                                        },
+                                                        "type":  "object"
+                                                    },
+                                                    "commentId":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "createdTimeUtc":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "message":  {
+                                                        "type":  "string"
+                                                    }
+                                                },
+                                                "required":  [
+                                                    "commentId",
+                                                    "message",
+                                                    "createdTimeUtc",
+                                                    "author"
+                                                ],
+                                                "type":  "object"
+                                            },
+                                            "type":  "array"
+                                        },
+                                        "createdTimeUtc":  {
+                                            "type":  "string"
+                                        },
+                                        "description":  {
+                                            "type":  "string"
+                                        },
+                                        "firstActivityTimeUtc":  {
+                                            "type":  "string"
+                                        },
+                                        "incidentNumber":  {
+                                            "type":  "integer"
+                                        },
+                                        "labels":  {
+                                            "items":  {
+                                                "properties":  {
+                                                    "name":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "type":  {
+                                                        "type":  "string"
+                                                    }
+                                                },
+                                                "required":  [
+                                                    "name",
+                                                    "type"
+                                                ],
+                                                "type":  "object"
+                                            },
+                                            "type":  "array"
+                                        },
+                                        "lastActivityTimeUtc":  {
+                                            "type":  "string"
+                                        },
+                                        "lastModifiedTimeUtc":  {
+                                            "type":  "string"
+                                        },
+                                        "owner":  {
+                                            "properties":  {
+                                                "displayName":  {
+                                                    "type":  "string"
+                                                },
+                                                "email":  {
+                                                    "type":  "string"
+                                                },
+                                                "userPrincipalName":  {
+                                                    "type":  "string"
+                                                }
+                                            },
+                                            "type":  "object"
+                                        },
+                                        "relatedAnalyticRules":  {
+                                            "items":  {
+                                                "properties":  {
+                                                    "id":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "name":  {
+                                                        "type":  "string"
+                                                    }
+                                                },
+                                                "required":  [
+                                                    "name",
+                                                    "id"
+                                                ],
+                                                "type":  "object"
+                                            },
+                                            "type":  "array"
+                                        },
+                                        "resources":  {
+                                            "items":  {
+                                                "properties":  {
+                                                    "resourceId":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "resourceName":  {
+                                                        "type":  "string"
+                                                    },
+                                                    "resourceType":  {
+                                                        "type":  "string"
+                                                    }
+                                                },
+                                                "required":  [
+                                                    "resourceId",
+                                                    "resourceType",
+                                                    "resourceName"
+                                                ],
+                                                "type":  "object"
+                                            },
+                                            "type":  "array"
+                                        },
+                                        "severity":  {
+                                            "type":  "string"
+                                        },
+                                        "status":  {
+                                            "type":  "string"
+                                        },
+                                        "title":  {
+                                            "type":  "string"
+                                        }
+                                    },
+                                    "type":  "object"
+                                }
+                            }
+                        },
+                        "Send_event":  {
+                            "runAfter":  {
+                                "Parse_JSON":  [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type":  "ApiConnection",
+                            "inputs":  {
+                                "host":  {
+                                    "connection":  {
+                                        "name":  "@parameters('$connections')['eventhubs-1']['connectionId']"
+                                    }
+                                },
+                                "method":  "post",
+                                "body":  {
+                                    "ContentData":  "@{base64(body('Parse_JSON'))}"
+                                },
+                                "path":  "/@{encodeURIComponent('expo-soc-demo-eventhub')}/events"
+                            }
+                        },
+                        "Send_email":  {
+                            "runAfter":  {
+                                "Parse_JSON":  [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type":  "ApiConnection",
+                            "inputs":  {
+                                "host":  {
+                                    "connection":  {
+                                        "name":  "@parameters('$connections')['acsemail-1']['connectionId']"
+                                    }
+                                },
+                                "method":  "post",
+                                "body":  {
+                                    "senderAddress":  "DoNotReply@875f673b-08e2-4438-967b-9ad6893451ee.azurecomm.net",
+                                    "recipients":  {
+                                        "to":  [
+                                            {
+                                                "address":  "soc@exponential-e.com"
+                                            }
+                                        ]
+                                    },
+                                    "content":  {
+                                        "subject":  "AZURE INCIDENT - NEW",
+                                        "html":  "\u003cp\u003e@{body('Parse_JSON')}\u003c/p\u003e"
+                                    },
+                                    "importance":  "Normal"
+                                },
+                                "path":  "/emails:sendGAVersion",
+                                "queries":  {
+                                    "api-version":  "2023-03-31"
+                                }
+                            }
+                        }
+                    },
+                    "outputs":  {
+                    }
+                },
+                "parameters":  {
+                    "$connections":  {
+                        "value":  {
+                            "azuresentinel":  {
+                                "connectionId":  "[resourceId('Microsoft.Web/connections', variables('MicrosoftSentinelConnectionName'))]",
+                                "connectionName":  "[variables('MicrosoftSentinelConnectionName')]",
+                                "id":  "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/Azuresentinel')]",
+                                "connectionProperties":  {
+                                    "authentication":  {
+                                        "type":  "ManagedServiceIdentity"
+                                    }
+                                }
+                            },
+                            "eventhubs-1":  {
+                                "connectionId":  "[resourceId('Microsoft.Web/connections', variables('Eventhubs-1ConnectionName'))]",
+                                "connectionName":  "[variables('Eventhubs-1ConnectionName')]",
+                                "id":  "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/Eventhubs-1')]"
+                            },
+                            "acsemail-1":  {
+                                "connectionId":  "[resourceId('Microsoft.Web/connections', variables('Acsemail-1ConnectionName'))]",
+                                "connectionName":  "[variables('Acsemail-1ConnectionName')]",
+                                "id":  "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/Acsemail-1')]"
+                            }
+                        }
+                    }
+                }
+            },
+            "name":  "[parameters('PlaybookName')]",
+            "type":  "Microsoft.Logic/workflows",
+            "location":  "[resourceGroup().location]",
+            "identity":  {
+                "type":  "SystemAssigned"
+            },
+            "apiVersion":  "2017-07-01",
+            "dependsOn":  [
+                "[resourceId('Microsoft.Web/connections', variables('MicrosoftSentinelConnectionName'))]",
+                "[resourceId('Microsoft.Web/connections', variables('Eventhubs-1ConnectionName'))]",
+                "[resourceId('Microsoft.Web/connections', variables('Acsemail-1ConnectionName'))]"
+            ]
+        },
+        {
+            "type":  "Microsoft.Web/connections",
+            "apiVersion":  "2016-06-01",
+            "name":  "[variables('MicrosoftSentinelConnectionName')]",
+            "location":  "[resourceGroup().location]",
+            "kind":  "V1",
+            "properties":  {
+                "displayName":  "[variables('MicrosoftSentinelConnectionName')]",
+                "customParameterValues":  {
+                },
+                "parameterValueType":  "Alternative",
+                "api":  {
+                    "id":  "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/Azuresentinel')]"
+                }
+            }
+        },
+        {
+            "type":  "Microsoft.Web/connections",
+            "apiVersion":  "2016-06-01",
+            "name":  "[variables('Eventhubs-1ConnectionName')]",
+            "location":  "[resourceGroup().location]",
+            "kind":  "V1",
+            "properties":  {
+                "displayName":  "[variables('Eventhubs-1ConnectionName')]",
+                "customParameterValues":  {
+                },
+                "api":  {
+                    "id":  "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/Eventhubs-1')]"
+                }
+            }
+        },
+        {
+            "type":  "Microsoft.Web/connections",
+            "apiVersion":  "2016-06-01",
+            "name":  "[variables('Acsemail-1ConnectionName')]",
+            "location":  "[resourceGroup().location]",
+            "kind":  "V1",
+            "properties":  {
+                "displayName":  "[variables('Acsemail-1ConnectionName')]",
+                "customParameterValues":  {
+                },
+                "api":  {
+                    "id":  "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/Acsemail-1')]"
+                }
+            }
+        }
+    ]
+}
