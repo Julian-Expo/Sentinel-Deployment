@@ -40,7 +40,7 @@
                 "toolTip": "The Workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol.",
                 "constraints": {
                     "required": true,
-                    "regex": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]{4,63}$",
+                    "regex": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]{2,63}$",
                     "validationMessage": "Only alphanumeric characters and '-' are allowed, and the name must be 4-63 characters long."
                 },
                 "visible": true
