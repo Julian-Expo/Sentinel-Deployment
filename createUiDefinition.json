@@ -41,7 +41,7 @@
                 "constraints": {
                     "required": true,
                     "regex": "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]{4,63}$",
-                    "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                    "validationMessage": "Only alphanumeric characters and '-' are allowed, and the name must be 4-63 characters long."
                 },
                 "visible": true
             },
